@@ -200,7 +200,7 @@ def build_skill_current(
 
 
 def export(frames: dict[str, pd.DataFrame], out_dir: str | Path) -> dict[str, str]:
-    """Write each frame as CSV (readable, diffable) and Parquet (typed, fast)."""
+    """Write each frame as CSV (readable, diffable)."""
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     written: dict[str, str] = {}
@@ -210,8 +210,4 @@ def export(frames: dict[str, pd.DataFrame], out_dir: str | Path) -> dict[str, st
         csv_path = out / f"{name}.csv"
         frame.to_csv(csv_path, index=False)
         written[name] = str(csv_path)
-        try:
-            frame.to_parquet(out / f"{name}.parquet", index=False)
-        except Exception:  # pyarrow missing or a dtype it cannot handle
-            pass
     return written

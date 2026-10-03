@@ -1,0 +1,315 @@
+/* Zindua School Design System — tokens copied verbatim from the account's
+   design-system artifact (project/tokens.json / tokens.css). This is a
+   marketing-site system with no dashboard/data-viz kit, so Kenya and Global
+   are mapped onto its only two brand hues (red, cyan) as a minimal extension;
+   type, radius, shadow and spacing follow the system exactly (one light theme).
+   Shared by every page in reports/. */
+:root {
+  --red-50: #fff1f2;
+  --red-100: #ffe0e2;
+  --red-300: #ff8f99;
+  --red-500: #fe3448;
+  --red-600: #e11d33;
+  --red-700: #b91329;
+  --black-900: #070707;
+  --black-800: #171717;
+  --gray-700: #3f3f3f;
+  --gray-600: #5c5c5c;
+  --gray-500: #7a7a7a;
+  --gray-300: #c9c9c9;
+  --gray-200: #e3e3e3;
+  --gray-100: #f1f1f1;
+  --gray-50: #f8f8f8;
+  --white: #ffffff;
+  --cyan-700: #00697d;
+  --cyan-500: #0091ad;
+  --cyan-100: #e0f4f8;
+
+  --color-primary: var(--red-500);
+  --color-primary-hover: var(--red-600);
+  --color-primary-active: var(--red-700);
+  --color-secondary: var(--black-900);
+  --color-accent: var(--cyan-500);
+  --color-accent-hover: var(--cyan-700);
+  --text-heading: var(--black-900);
+  --text-body: var(--gray-700);
+  --text-muted: var(--gray-500);
+  --text-on-dark: var(--white);
+  --text-on-dark-muted: #c9c9c9;
+  --surface-page: var(--white);
+  --surface-sunken: var(--gray-50);
+  --surface-dark: var(--black-900);
+  --surface-card: var(--white);
+  --border-default: var(--gray-200);
+  --border-strong: var(--black-900);
+  --border-accent: var(--color-primary);
+  --focus-ring: var(--cyan-500);
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(7,7,7,0.06);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+  --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+  --container-max: 1200px;
+  --ease-standard: cubic-bezier(.4,0,.2,1);
+  --duration-fast: 120ms;
+  --duration-standard: 180ms;
+
+  --font-display: "Hanken Grotesk", -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Hanken Grotesk", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --fs-hero: clamp(2rem,4vw,2.75rem);
+  --fs-h1: 2rem; --fs-h2: 1.5rem; --fs-h3: 1.25rem; --fs-h4: 1.05rem;
+  --fs-body-lg: 1.125rem; --fs-body: 1rem; --fs-small: 0.875rem; --fs-eyebrow: 0.8rem;
+  --lh-tight: 1.15; --lh-snug: 1.3; --lh-normal: 1.55;
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+  --tracking-eyebrow: 0.06em;
+
+  /* Dashboard mapping onto the two brand hues — Kenya reads in the brand's
+     primary red, Global in its cyan accent; see the note above. */
+  --ground: var(--white);
+  --surface: var(--surface-card);
+  --surface-sunk: var(--surface-sunken);
+  --line: var(--border-default);
+  --line-soft: var(--gray-100);
+  --text: var(--text-heading);
+  --text-2: var(--text-body);
+  --text-3: var(--text-muted);
+  --kenya: var(--color-primary);
+  --global: var(--color-accent);
+  --add: var(--color-primary);
+  --expand: var(--color-accent);
+  --hold: var(--black-800);
+  --watch: var(--gray-600);
+  --retire: var(--gray-300);
+  --shadow: none;
+  --radius: var(--radius-lg);
+  --measure: 68ch;
+  --ai-agents: var(--red-500);
+  --llm-color: var(--cyan-500);
+  --claude-color: var(--black-800);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--ground);
+  color: var(--text-2);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--space-8); }
+
+/* Header */
+
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: var(--space-12) 0 var(--space-10);
+}
+
+.crumb {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.crumb a { color: var(--color-accent); text-decoration: none; }
+
+.crumb a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--color-accent);
+  margin-bottom: var(--space-3);
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-hero);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--text-heading);
+  margin-bottom: var(--space-3);
+}
+
+.lede {
+  font-size: var(--fs-body-lg);
+  color: var(--text-body);
+  max-width: var(--measure);
+  line-height: var(--lh-normal);
+}
+
+.lede strong { color: var(--text-heading); font-weight: var(--fw-semibold); }
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin: -28px 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--border-default);
+}
+
+.kpi-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.kpi-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+}
+
+/* Section */
+
+section { padding: var(--space-12) 0; }
+
+section + section { border-top: 1px solid var(--border-default); }
+
+h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+  margin-bottom: var(--space-2);
+}
+
+.section-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.callout {
+  background: var(--surface-dark);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin: var(--space-6) 0 var(--space-8);
+  color: var(--text-on-dark-muted);
+  font-size: 15px;
+  line-height: var(--lh-normal);
+}
+
+.callout strong { color: var(--color-primary); font-weight: var(--fw-semibold); }
+
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.chart-title {
+  font-family: var(--font-body);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+  margin-bottom: var(--space-1);
+}
+
+.chart-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.track-list { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.track-card {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.track-card > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: var(--space-4) var(--space-5);
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: var(--space-4);
+  align-items: baseline;
+  transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.track-card > summary::-webkit-details-marker { display: none; }
+
+.track-card > summary:hover { background: var(--surface-sunk); }
+
+.track-card-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-semibold);
+  color: var(--text-heading);
+}
+
+.track-card-meta {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.track-chev { color: var(--text-muted); font-size: 12px; transition: transform var(--duration-standard) var(--ease-standard); }
+
+.track-card[open] .track-chev { transform: rotate(90deg); }
+
+.track-card-body {
+  padding: 4px var(--space-5) var(--space-5);
+  border-top: 1px solid var(--border-default);
+}
+
+.action-table th {
+  text-align: right;
+  font-weight: var(--fw-medium);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.action-table th:first-child { text-align: left; }
+
+.action-table td:first-child { text-align: left; font-weight: var(--fw-medium); color: var(--text-heading); }
+
+.action-table tr:last-child td { border-bottom: 0; }
+
+/* Footer */
+
+footer {
+  padding: var(--space-8) 0;
+  border-top: 1px solid var(--border-default);
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+footer a { color: var(--color-accent); text-decoration: none; }

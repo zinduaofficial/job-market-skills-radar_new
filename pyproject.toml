@@ -10,10 +10,8 @@ dependencies = [
     "protego>=0.3",
     "lxml>=5.2",
     "pandas>=2.2",
-    "pyarrow>=16.0",
     "pyyaml>=6.0",
     "python-dateutil>=2.9",
-    "tenacity>=8.3",
     "rich>=13.7",
     "typer>=0.12",
 ]
@@ -24,11 +22,6 @@ dev = [
     "pytest-cov>=5.0",
     "responses>=0.25",
     "ruff>=0.5",
-]
-notebooks = [
-    "jupyter>=1.0",
-    "matplotlib>=3.9",
-    "seaborn>=0.13",
 ]
 
 [project.scripts]

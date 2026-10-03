@@ -355,7 +355,7 @@ job-market-skills-radar/
 ├── data/
 │   ├── raw/jobs.sqlite          ← canonical store (gitignored)
 │   ├── cache/http_cache.sqlite  ← response cache (gitignored)
-│   └── processed/               ← jobs.parquet, skill_year.csv, skill_diffusion.csv (committed)
+│   └── processed/               ← jobs.csv, skill_year.csv, skill_diffusion.csv (committed)
 ├── taxonomy/
 │   ├── skills.csv               ← the curriculum bridge
 │   └── role_families.csv

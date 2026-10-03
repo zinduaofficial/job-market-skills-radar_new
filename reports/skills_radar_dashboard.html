@@ -7,183 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="zindua.css">
 <style>
-/* Zindua School Design System — tokens copied verbatim from the account's
-   design-system artifact (project/tokens.json / tokens.css). This is a
-   marketing-site system; there is no dashboard/data-viz kit yet, so Kenya
-   and Global are mapped onto the system's only two brand hues (red, cyan)
-   as a minimal, disciplined extension — everything else (type, radius,
-   shadow, spacing, no dark theme) follows the system exactly. */
-:root {
-  --red-50: #fff1f2;
-  --red-100: #ffe0e2;
-  --red-300: #ff8f99;
-  --red-500: #fe3448;
-  --red-600: #e11d33;
-  --red-700: #b91329;
-  --black-900: #070707;
-  --black-800: #171717;
-  --gray-700: #3f3f3f;
-  --gray-600: #5c5c5c;
-  --gray-500: #7a7a7a;
-  --gray-300: #c9c9c9;
-  --gray-200: #e3e3e3;
-  --gray-100: #f1f1f1;
-  --gray-50: #f8f8f8;
-  --white: #ffffff;
-  --cyan-700: #00697d;
-  --cyan-500: #0091ad;
-  --cyan-100: #e0f4f8;
-
-  --color-primary: var(--red-500);
-  --color-primary-hover: var(--red-600);
-  --color-primary-active: var(--red-700);
-  --color-secondary: var(--black-900);
-  --color-accent: var(--cyan-500);
-  --color-accent-hover: var(--cyan-700);
-  --text-heading: var(--black-900);
-  --text-body: var(--gray-700);
-  --text-muted: var(--gray-500);
-  --text-on-dark: var(--white);
-  --text-on-dark-muted: #c9c9c9;
-  --surface-page: var(--white);
-  --surface-sunken: var(--gray-50);
-  --surface-dark: var(--black-900);
-  --surface-card: var(--white);
-  --border-default: var(--gray-200);
-  --border-strong: var(--black-900);
-  --border-accent: var(--color-primary);
-  --focus-ring: var(--cyan-500);
-  --shadow-none: none;
-  --shadow-sm: 0 1px 2px rgba(7,7,7,0.06);
-
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-pill: 9999px;
-  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
-  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
-  --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
-  --container-max: 1200px;
-  --ease-standard: cubic-bezier(.4,0,.2,1);
-  --duration-fast: 120ms;
-  --duration-standard: 180ms;
-
-  --font-display: "Hanken Grotesk", -apple-system, "Segoe UI", sans-serif;
-  --font-body: "Hanken Grotesk", -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  --fs-hero: clamp(2rem,4vw,2.75rem);
-  --fs-h1: 2rem; --fs-h2: 1.5rem; --fs-h3: 1.25rem; --fs-h4: 1.05rem;
-  --fs-body-lg: 1.125rem; --fs-body: 1rem; --fs-small: 0.875rem; --fs-eyebrow: 0.8rem;
-  --lh-tight: 1.15; --lh-snug: 1.3; --lh-normal: 1.55;
-  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
-  --tracking-eyebrow: 0.06em;
-
-  /* Dashboard mapping onto the two brand hues — Kenya reads in the brand's
-     primary red, Global in its cyan accent; see the note above. */
-  --ground: var(--white);
-  --surface: var(--surface-card);
-  --surface-sunk: var(--surface-sunken);
-  --line: var(--border-default);
-  --line-soft: var(--gray-100);
-  --text: var(--text-heading);
-  --text-2: var(--text-body);
-  --text-3: var(--text-muted);
-  --accent: var(--color-accent);
-  --accent-soft: var(--cyan-100);
-  --kenya: var(--color-primary);
-  --kenya-soft: var(--red-50);
-  --global: var(--color-accent);
-  --global-soft: var(--cyan-100);
-  --add: var(--color-primary);
-  --expand: var(--color-accent);
-  --hold: var(--black-800);
-  --watch: var(--gray-600);
-  --retire: var(--gray-300);
-  --shadow: none;
-  --radius: var(--radius-lg);
-  --measure: 68ch;
-  --font-head: var(--font-display);
-  --ai-agents: var(--red-500);
-  --llm-color: var(--cyan-500);
-  --claude-color: var(--black-800);
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: var(--ground);
-  color: var(--text-2);
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: var(--lh-normal);
-  -webkit-font-smoothing: antialiased;
-}
-.wrap { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--space-8); }
-
-/* Header */
-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  padding: var(--space-12) 0 var(--space-10);
-}
-.crumb {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: var(--fw-medium);
-  color: var(--text-muted);
-  margin-bottom: var(--space-4);
-}
-.crumb a { color: var(--color-accent); text-decoration: none; }
-.crumb a:hover { color: var(--color-accent-hover); text-decoration: underline; }
-.eyebrow {
-  font-family: var(--font-body);
-  font-size: var(--fs-eyebrow);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-eyebrow);
-  color: var(--color-accent);
-  margin-bottom: var(--space-3);
-}
-h1 {
-  font-family: var(--font-display);
-  font-size: var(--fs-hero);
-  font-weight: var(--fw-bold);
-  line-height: var(--lh-tight);
-  color: var(--text-heading);
-  margin-bottom: var(--space-3);
-}
-.lede {
-  font-size: var(--fs-body-lg);
-  color: var(--text-body);
-  max-width: var(--measure);
-  line-height: var(--lh-normal);
-}
-.lede strong { color: var(--text-heading); font-weight: var(--fw-semibold); }
-
 /* KPI Row — modeled on the StatBlock component: one red headline number,
    the rest dark, "so one number leads." No shadow — hairline border only. */
-.kpi-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-4);
-  margin: -28px 0 0;
-  position: relative;
-  z-index: 1;
-}
-.kpi-card {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5) var(--space-6);
-  border: 1px solid var(--border-default);
-}
-.kpi-label {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-eyebrow);
-  color: var(--text-muted);
-  margin-bottom: var(--space-1);
-}
+
 .kpi-value {
   font-family: var(--font-display);
   font-size: 32px;
@@ -191,69 +19,21 @@ h1 {
   color: var(--text-heading);
   line-height: 1.1;
 }
-.kpi-sub {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: var(--space-1);
-}
-
-/* Section */
-section { padding: var(--space-12) 0; }
-section + section { border-top: 1px solid var(--border-default); }
-h2 {
-  font-family: var(--font-display);
-  font-size: var(--fs-h2);
-  font-weight: var(--fw-semibold);
-  color: var(--text-heading);
-  margin-bottom: var(--space-2);
-}
-.section-sub {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: var(--space-6);
-}
 
 /* Callout — the CTABanner pattern: full-bleed black rounded block, red
    prefix + white title, the system's one loud, highest-emphasis moment. */
-.callout {
-  background: var(--surface-dark);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  margin: var(--space-6) 0 var(--space-8);
-  color: var(--text-on-dark-muted);
-  font-size: 15px;
-  line-height: var(--lh-normal);
-}
-.callout strong { color: var(--color-primary); font-weight: var(--fw-semibold); }
 
 /* Chart Card — white surface, hairline border, no shadow, radius-lg */
-.chart-card {
-  background: var(--surface);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  margin-bottom: var(--space-6);
-}
-.chart-title {
-  font-family: var(--font-body);
-  font-size: var(--fs-h4);
-  font-weight: var(--fw-semibold);
-  color: var(--text-heading);
-  margin-bottom: var(--space-1);
-}
-.chart-subtitle {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: var(--space-5);
-}
 
 /* Legend */
+
 .legend {
   display: flex;
   gap: var(--space-5);
   margin-bottom: var(--space-4);
   flex-wrap: wrap;
 }
+
 .legend-item {
   display: flex;
   align-items: center;
@@ -262,12 +42,14 @@ h2 {
   color: var(--text-body);
   font-weight: var(--fw-medium);
 }
+
 .legend-swatch {
   width: 10px;
   height: 10px;
   border-radius: 2px;
   flex-shrink: 0;
 }
+
 .legend-line {
   width: 16px;
   height: 2px;
@@ -276,7 +58,7 @@ h2 {
 }
 
 /* Horizontal Bar Chart */
-.hbar-chart { width: 100%; }
+
 .hbar-row {
   display: grid;
   grid-template-columns: 140px 1fr;
@@ -284,6 +66,7 @@ h2 {
   gap: var(--space-3);
   margin-bottom: 6px;
 }
+
 .hbar-label {
   font-family: var(--font-body);
   font-size: 12px;
@@ -294,7 +77,7 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.hbar-track { position: relative; height: 28px; display: flex; align-items: center; gap: 2px; }
+
 .hbar-bar {
   height: 20px;
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
@@ -302,7 +85,9 @@ h2 {
   position: relative;
   min-width: 2px;
 }
+
 .hbar-bar:hover { opacity: 0.8; }
+
 .hbar-val {
   font-family: var(--font-body);
   font-size: 11px;
@@ -312,27 +97,24 @@ h2 {
   white-space: nowrap;
 }
 
-/* Grouped bars */
-.hbar-grouped { display: flex; flex-direction: column; gap: 2px; }
-.hbar-grouped .hbar-track { height: auto; flex-direction: column; align-items: stretch; gap: 2px; }
-.hbar-grouped .hbar-pair {
-  display: flex;
-  align-items: center;
-  height: 14px;
-}
-
 /* Line Chart SVG */
+
 .line-chart-wrap { position: relative; width: 100%; overflow: visible; }
+
 .line-chart-wrap svg { display: block; width: 100%; height: auto; }
+
 .line-chart-wrap .grid-line { stroke: var(--line-soft); stroke-width: 1; }
+
 .line-chart-wrap .axis-label {
   font-family: var(--font-body);
   font-size: 11px;
   fill: var(--text-muted);
 }
+
 .line-chart-wrap .data-line { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Tooltip — the one place in the system a shadow is allowed: a floating surface */
+
 .chart-tooltip {
   position: fixed;
   background: var(--surface);
@@ -347,34 +129,45 @@ h2 {
   transition: opacity var(--duration-fast) var(--ease-standard);
   max-width: 280px;
 }
+
 .chart-tooltip.visible { opacity: 1; }
+
 .tt-title { font-weight: var(--fw-semibold); color: var(--text-heading); margin-bottom: 4px; font-size: 12px; }
+
 .tt-row { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+
 .tt-key { width: 12px; height: 2px; border-radius: 1px; flex-shrink: 0; }
+
 .tt-name { color: var(--text-body); }
+
 .tt-val { font-family: var(--font-body); font-weight: var(--fw-medium); color: var(--text-heading); margin-left: auto; }
 
 /* Role Cards */
+
 .role-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-4);
 }
+
 .role-card {
   background: var(--surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-6);
 }
+
 .role-head {
   margin-bottom: 4px;
 }
+
 .role-title {
   font-family: var(--font-display);
   font-size: var(--fs-h4);
   font-weight: var(--fw-semibold);
   color: var(--text-heading);
 }
+
 .role-programme {
   font-family: var(--font-body);
   font-size: 11px;
@@ -384,18 +177,22 @@ h2 {
   letter-spacing: var(--tracking-eyebrow);
   margin-top: 2px;
 }
+
 .role-meta {
   font-size: 12px;
   color: var(--text-muted);
   margin: var(--space-2) 0 var(--space-4);
 }
+
 .role-bars { display: flex; flex-direction: column; gap: 5px; }
+
 .role-row {
   display: grid;
   grid-template-columns: 96px 1fr;
   align-items: center;
   gap: var(--space-2);
 }
+
 .role-label {
   font-family: var(--font-body);
   font-size: 11px;
@@ -405,57 +202,30 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .role-track { display: flex; flex-direction: column; gap: 2px; }
+
 .role-track .hbar-bar { height: 8px; }
+
 .role-track .hbar-val { font-size: 10px; }
 
 /* Programme Deep-Dive Accordion — modeled on the Accordion component:
    bordered card, hairline dividers, chevron rotates 180° on open, no shadow. */
-.track-list { display: flex; flex-direction: column; gap: var(--space-3); }
-.track-card {
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  overflow: hidden;
-}
-.track-card > summary {
-  list-style: none;
-  cursor: pointer;
-  padding: var(--space-4) var(--space-5);
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: var(--space-4);
-  align-items: baseline;
-  transition: background var(--duration-fast) var(--ease-standard);
-}
-.track-card > summary::-webkit-details-marker { display: none; }
-.track-card > summary:hover { background: var(--surface-sunk); }
-.track-card-title {
-  font-family: var(--font-display);
-  font-size: var(--fs-h4);
-  font-weight: var(--fw-semibold);
-  color: var(--text-heading);
-}
-.track-card-meta {
-  font-family: var(--font-body);
-  font-size: 12px;
-  color: var(--text-muted);
-}
+
 .track-card-meta .v-ke { color: var(--kenya); font-weight: var(--fw-medium); }
+
 .track-card-meta .v-gl { color: var(--global); font-weight: var(--fw-medium); }
-.track-chev { color: var(--text-muted); font-size: 12px; transition: transform var(--duration-standard) var(--ease-standard); }
-.track-card[open] .track-chev { transform: rotate(90deg); }
-.track-card-body {
-  padding: 4px var(--space-5) var(--space-5);
-  border-top: 1px solid var(--border-default);
-}
+
 .action-block { margin-top: var(--space-4); }
+
 .action-head { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-2); }
+
 .action-why { font-size: 12px; color: var(--text-muted); }
 
 /* Status tags — the Badge component is type-only ("no filled-pill badge in
    this brand"), so these follow that: colored uppercase text with a small
    square swatch standing in for the icon Badge doesn't have, not a chip. */
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -467,6 +237,7 @@ h2 {
   font-weight: var(--fw-semibold);
   white-space: nowrap;
 }
+
 .tag::before {
   content: "";
   width: 7px;
@@ -475,28 +246,25 @@ h2 {
   background: currentColor;
   flex-shrink: 0;
 }
+
 .tag.add { color: var(--add); }
+
 .tag.expand { color: var(--expand); }
+
 .tag.hold { color: var(--hold); }
+
 .tag.watch { color: var(--watch); }
+
 .tag.watch::before { background: transparent; border: 1.5px solid currentColor; }
+
 .tag.retire { color: var(--retire); }
+
 .tag.retire::before { background: transparent; border: 1.5px solid currentColor; }
+
 .action-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.action-table th {
-  text-align: right;
-  font-weight: var(--fw-medium);
-  font-size: 11px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  padding: 5px 8px;
-  border-bottom: 1px solid var(--border-default);
-}
-.action-table th:first-child { text-align: left; }
+
 .action-table td { padding: 5px 8px; border-bottom: 1px solid var(--gray-100); text-align: right; }
-.action-table td:first-child { text-align: left; font-weight: var(--fw-medium); color: var(--text-heading); }
-.action-table tr:last-child td { border-bottom: 0; }
+
 .also-tracked {
   margin-top: var(--space-4);
   font-size: 12px;
@@ -505,32 +273,38 @@ h2 {
   padding-top: var(--space-3);
   border-top: 1px solid var(--gray-100);
 }
+
 .also-tracked strong { color: var(--text-body); font-weight: var(--fw-medium); }
 
 /* Watchlist Cards */
+
 .watch-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-4);
 }
+
 .watch-card {
   background: var(--surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
 }
+
 .watch-card-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: var(--space-3);
 }
+
 .watch-skill {
   font-family: var(--font-display);
   font-size: 17px;
   font-weight: var(--fw-semibold);
   color: var(--text-heading);
 }
+
 .watch-tag {
   font-family: var(--font-body);
   font-size: var(--fs-eyebrow);
@@ -541,6 +315,7 @@ h2 {
   white-space: nowrap;
   padding-top: 2px;
 }
+
 .watch-row {
   display: flex;
   justify-content: space-between;
@@ -549,23 +324,30 @@ h2 {
   border-bottom: 1px solid var(--gray-100);
   font-size: 13px;
 }
+
 .watch-row:last-child { border-bottom: none; }
+
 .watch-metric { color: var(--text-muted); }
+
 .watch-value { font-family: var(--font-body); font-weight: var(--fw-medium); color: var(--text-heading); }
+
 .watch-trend-up { color: var(--color-primary); }
 
 /* Status Grid */
+
 .status-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: var(--space-3);
 }
+
 .status-card {
   background: var(--surface-sunk);
   border-radius: var(--radius-md);
   padding: var(--space-4);
   text-align: center;
 }
+
 .status-count {
   font-family: var(--font-display);
   font-size: 28px;
@@ -574,6 +356,7 @@ h2 {
   line-height: 1;
   margin-bottom: 4px;
 }
+
 .status-label {
   font-family: var(--font-body);
   font-size: 11px;
@@ -584,12 +367,14 @@ h2 {
 }
 
 /* Kenya distinctives */
+
 .kenya-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
 }
+
 .kenya-table th {
   font-family: var(--font-body);
   font-size: 11px;
@@ -601,27 +386,35 @@ h2 {
   padding: 8px 12px;
   border-bottom: 2px solid var(--border-default);
 }
+
 .kenya-table th:nth-child(n+2) { text-align: right; }
+
 .kenya-table td {
   padding: 10px 12px;
   border-bottom: 1px solid var(--gray-100);
   color: var(--text-body);
 }
+
 .kenya-table td:first-child { font-weight: var(--fw-medium); color: var(--text-heading); }
+
 .kenya-table td:nth-child(n+2) {
   text-align: right;
   font-family: var(--font-body);
   font-size: 13px;
 }
+
 .kenya-table tr:nth-child(even) td { background: var(--surface-sunk); }
 
 /* Role Demand Ranking */
+
 .rank-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-6);
 }
+
 .rank-list { display: flex; flex-direction: column; gap: 2px; }
+
 .rank-row {
   display: grid;
   grid-template-columns: 28px 1fr auto;
@@ -630,15 +423,20 @@ h2 {
   padding: 9px 12px;
   border-radius: var(--radius-md);
 }
+
 .rank-row:nth-child(odd) { background: var(--surface-sunk); }
+
 .rank-num {
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: var(--fw-medium);
   color: var(--text-muted);
 }
+
 .rank-name { font-size: 14px; font-weight: var(--fw-medium); color: var(--text-heading); }
+
 .rank-meta { text-align: right; }
+
 .rank-count {
   font-family: var(--font-body);
   font-size: 13px;
@@ -646,8 +444,11 @@ h2 {
   color: var(--text-heading);
   display: block;
 }
+
 .rank-pct { font-size: 11px; color: var(--text-muted); }
+
 .rank-list.kenya .rank-count { color: var(--kenya); }
+
 .rank-list.global .rank-count { color: var(--global); }
 
 @media (max-width: 720px) {
@@ -664,15 +465,6 @@ h2 {
   .action-table { font-size: 12px; }
   .action-table th, .action-table td { padding: 4px 4px; }
 }
-
-/* Footer */
-footer {
-  padding: var(--space-8) 0;
-  border-top: 1px solid var(--border-default);
-  color: var(--text-muted);
-  font-size: 13px;
-}
-footer a { color: var(--color-accent); text-decoration: none; }
 </style>
 </head>
 <body>
@@ -846,6 +638,7 @@ footer a { color: var(--color-accent); text-decoration: none; }
 
 <div class="chart-tooltip" id="tooltip"></div>
 
+<script src="skill_data.js"></script>
 <script>
 // ── Data ────────────────────────────────────────────────────────────────
 const topSkillsData = [
@@ -919,31 +712,25 @@ const kenyaDistinctives = [
 // No per-job-title skill join exists in the committed dataset (job_skills lives
 // only in the gitignored raw SQLite store). Each Zindua programme is used as the
 // role proxy instead, since every skill is already scoped to the role its
-// programme trains for. Top skills per role, ranked by global share.
-const roleSkills = [
-  {role:"Software Engineer", programme:"Software Engineering Core", skillCount:43, global:55.91, kenya:24.36,
-    skills:[{skill:"Python",global:27.89,kenya:7.01},{skill:"System Design",global:13.01,kenya:1.26},{skill:"Java",global:6.77,kenya:3.34},{skill:"Go",global:6.82,kenya:0.66},{skill:"C++",global:5.87,kenya:0.82},{skill:"JavaScript",global:5.75,kenya:2.52},{skill:"Rust",global:5.38,kenya:0.49},{skill:"GitHub",global:5.12,kenya:1.15}]},
-  {role:"Data / BI Analyst", programme:"Data Analytics", skillCount:10, global:23.49, kenya:66.12,
-    skills:[{skill:"SQL",global:11.97,kenya:7.88},{skill:"A/B Testing",global:7.19,kenya:0.99},{skill:"Excel",global:3.89,kenya:46.03},{skill:"Statistics",global:3.56,kenya:13.79},{skill:"Tableau",global:2.47,kenya:1.48},{skill:"Looker",global:1.87,kenya:0.27},{skill:"Oracle",global:1.44,kenya:4.60},{skill:"Power BI",global:0.91,kenya:3.78}]},
-  {role:"AI / ML Engineer", programme:"AI Engineering", skillCount:13, global:39.35, kenya:3.67,
-    skills:[{skill:"AI Agents",global:21.80,kenya:0.55},{skill:"LLM",global:14.84,kenya:2.41},{skill:"OpenAI API",global:9.98,kenya:0.93},{skill:"Claude",global:8.36,kenya:0.55},{skill:"RAG",global:2.93,kenya:0.49},{skill:"Fine-tuning",global:2.19,kenya:0.33},{skill:"MLOps",global:1.92,kenya:0.33},{skill:"Prompt Engineering",global:1.69,kenya:0.99}]},
-  {role:"Data Engineer", programme:"Data Engineering", skillCount:16, global:36.04, kenya:7.94,
-    skills:[{skill:"AWS",global:18.74,kenya:3.56},{skill:"Google Cloud",global:11.41,kenya:1.75},{skill:"PostgreSQL",global:9.04,kenya:2.41},{skill:"Databricks",global:4.79,kenya:0.33},{skill:"Snowflake",global:4.72,kenya:0.38},{skill:"Apache Spark",global:4.16,kenya:0.60},{skill:"Data Warehousing",global:3.37,kenya:1.59},{skill:"Kafka",global:3.19,kenya:0.44}]},
-  {role:"DevOps / Platform Engineer", programme:"DevOps Engineering", skillCount:14, global:29.42, kenya:8.32,
-    skills:[{skill:"Kubernetes",global:12.92,kenya:1.48},{skill:"Azure",global:9.24,kenya:4.16},{skill:"CI/CD",global:8.64,kenya:2.96},{skill:"Linux",global:6.20,kenya:2.41},{skill:"Terraform",global:6.04,kenya:0.82},{skill:"Docker",global:5.56,kenya:1.81},{skill:"Grafana",global:2.57,kenya:0.38},{skill:"Prometheus",global:1.80,kenya:0.22}]},
-  {role:"Frontend Engineer", programme:"Frontend Development", skillCount:15, global:25.44, kenya:5.75,
-    skills:[{skill:"TypeScript",global:13.65,kenya:1.04},{skill:"React",global:13.26,kenya:1.26},{skill:"Accessibility",global:3.42,kenya:2.41},{skill:"Next.js",global:2.92,kenya:0.16},{skill:"Figma",global:2.46,kenya:0.11},{skill:"Vue",global:1.49,kenya:0.22},{skill:"HTML",global:1.48,kenya:1.26},{skill:"CSS",global:1.47,kenya:1.09}]},
-  {role:"Data Scientist", programme:"Data Science Core", skillCount:14, global:24.00, kenya:4.38,
-    skills:[{skill:"Machine Learning",global:22.35,kenya:3.50},{skill:"PyTorch",global:2.60,kenya:0.22},{skill:"Deep Learning",global:1.37,kenya:0.27},{skill:"Computer Vision",global:1.26,kenya:0.11},{skill:"NLP",global:1.23,kenya:0.49},{skill:"TensorFlow",global:0.98,kenya:0.22},{skill:"Pandas",global:0.78,kenya:0.44},{skill:"scikit-learn",global:0.45,kenya:0.27}]},
-  {role:"Product Manager", programme:"Product Management", skillCount:4, global:19.26, kenya:18.94,
-    skills:[{skill:"Product Management",global:10.30,kenya:2.13},{skill:"Stakeholder Management",global:4.46,kenya:11.06},{skill:"Agile",global:4.40,kenya:6.68},{skill:"Jira",global:2.31,kenya:1.42}]},
-  {role:"Security Engineer", programme:"Cybersecurity Core", skillCount:9, global:9.18, kenya:3.39,
-    skills:[{skill:"Incident Response",global:4.57,kenya:1.53},{skill:"Cryptography",global:1.90,kenya:1.15},{skill:"SIEM",global:1.56,kenya:0.27},{skill:"ISO 27001",global:1.36,kenya:0.55},{skill:"Network Security",global:1.02,kenya:1.04},{skill:"Vulnerability Assessment",global:0.95,kenya:0.44},{skill:"Penetration Testing",global:0.70,kenya:0.71},{skill:"OWASP",global:0.39,kenya:0.22}]},
-  {role:"Analytics Communicator", programme:"Data Storytelling", skillCount:3, global:1.48, kenya:2.57,
-    skills:[{skill:"Data Visualization",global:1.33,kenya:2.52},{skill:"Data Storytelling",global:0.16,kenya:0.16},{skill:"Plotly",global:0.08,kenya:0.16}]},
-  {role:"Automation / AI Ops Specialist", programme:"AI Workflow Automation", skillCount:3, global:1.28, kenya:0.44,
-    skills:[{skill:"Zapier",global:0.78,kenya:0.33},{skill:"n8n",global:0.74,kenya:0.22},{skill:"Make.com",global:0.02,kenya:0.22}]},
+// programme trains for. Top 8 skills per role, ranked by global share.
+const roleCoverage = [ // [role, programme, global coverage %, Kenya coverage %]
+  ["Software Engineer","Software Engineering Core",55.91,24.36],
+  ["Data / BI Analyst","Data Analytics",23.49,66.12],
+  ["AI / ML Engineer","AI Engineering",39.35,3.67],
+  ["Data Engineer","Data Engineering",36.04,7.94],
+  ["DevOps / Platform Engineer","DevOps Engineering",29.42,8.32],
+  ["Frontend Engineer","Frontend Development",25.44,5.75],
+  ["Data Scientist","Data Science Core",24.0,4.38],
+  ["Product Manager","Product Management",19.26,18.94],
+  ["Security Engineer","Cybersecurity Core",9.18,3.39],
+  ["Analytics Communicator","Data Storytelling",1.48,2.57],
+  ["Automation / AI Ops Specialist","AI Workflow Automation",1.28,0.44],
 ];
+const roleSkills = roleCoverage.map(([role, programme, global, kenya], i) => {
+  const all = roleTrends[i][1];  // roleTrends comes from skill_data.js, same role order
+  return {role, programme, global, kenya, skillCount: all.length,
+    skills: all.slice(0, 8).map(([skill, g, k]) => ({skill, global: g, kenya: k}))};
+});
 
 // ── Programme Deep-Dive ────────────────────────────────────────────────────
 // Straight from reports/curriculum_briefs.md (generated by the pipeline).
