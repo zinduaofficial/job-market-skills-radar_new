@@ -29,6 +29,25 @@ FETCH ──▶ SOURCE ADAPTERS ──▶ STORE ──▶ EXTRACT ──▶ AGGR
  cache
 ```
 
+Every request goes through one client (`src/jobradar/fetch/client.py`), in this order: response cache, robots.txt check, per-domain rate-limit token, fetch with retry on 429/5xx, cache store. Source adapters never call `requests` directly. URLs wait in a `crawl_queue` table, so a killed crawl resumes where it stopped, and failures are logged in `failed_fetches` rather than counted as zero.
+
+A visual walkthrough of the scraping, sources, storage and frontend outputs is in the [Job Radar Data Pipeline](https://claude.ai/artifact/3Yj7LqWHSp1WMDU5iALzZQ) explainer (describes the `job_skills_radar` pipeline that the merge plan keeps).
+
+## Where the data lives
+
+| Layer | Location | In git? | Holds |
+|---|---|---|---|
+| Response cache | `data/cache/http_cache.sqlite` | No | Raw HTTP responses, so re-parsing costs no network |
+| Raw store | `data/raw/jobs.sqlite` | No | Every posting with its full description (`jobs`), skill tags (`job_skills`), crawl queue, failures, run log |
+| Processed frames | `data/processed/` | Yes | `jobs`, `skill_month`, `skill_year`, `skill_current`, `skill_diffusion`, `track_summary`, `watchlist` as CSV |
+| Dashboard data | `reports/skill_data.js` | Yes | Every skill per role with its 12-month change, built from `skill_diffusion.csv` by `scripts/build_dashboard_data.py` |
+
+The raw store is the only copy of the collected postings and is not committed. Back it up: the committed files can be rebuilt from it, but it cannot be rebuilt from them.
+
+## Merging with `job_skills_radar`
+
+[`zinduaofficial/job_skills_radar`](https://github.com/zinduaofficial/job_skills_radar) branched from this repo at Phase 7 and added role and pay analysis, Career Point Kenya, a monthly run, and D1 and Google Sheets publishing. [MERGE_PLAN.md](MERGE_PLAN.md) proposes merging it back here with both histories intact, and lists the decisions that need sign-off first.
+
 ## Sources
 
 **Kenya** — BrighterMonday, MyJobMag and Fuzu. All serve server-side HTML with JSON-LD `JobPosting` blocks, so no browser automation is needed. Crawled via category paths only, never keyword-search URLs (which BrighterMonday and MyJobMag both disallow in robots.txt). A JobWebKenya adapter exists but ships disabled: it declares `Crawl-delay: 60`, which costs hours of wall-clock for postings the other three already cover.
