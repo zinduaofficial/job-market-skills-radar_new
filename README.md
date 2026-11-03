@@ -31,6 +31,8 @@ FETCH ──▶ SOURCE ADAPTERS ──▶ STORE ──▶ EXTRACT ──▶ AGGR
 
 Every request goes through one client (`src/jobradar/fetch/client.py`), in this order: response cache, robots.txt check, per-domain rate-limit token, fetch with retry on 429/5xx, cache store. Source adapters never call `requests` directly. URLs wait in a `crawl_queue` table, so a killed crawl resumes where it stopped, and failures are logged in `failed_fetches` rather than counted as zero.
 
+A visual walkthrough of the scraping, sources, storage and frontend outputs is in the [Job Radar Data Pipeline](https://claude.ai/artifact/3Yj7LqWHSp1WMDU5iALzZQ) explainer (describes the `job_skills_radar` pipeline that the merge plan keeps).
+
 ## Where the data lives
 
 | Layer | Location | In git? | Holds |
