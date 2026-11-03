@@ -1,0 +1,175 @@
+# The monthly refresh. See ARCHITECTURE.md for why it is shaped this way.
+#
+# 1. Restore the raw store (data/raw/jobs.sqlite) from R2. It is the only copy of
+#    the collected postings and is never committed.
+# 2. Run `jobradar monthly`: collect, extract, export, health checks.
+# 3. Save the store back to R2, plus a dated backup.
+# 4. Commit the exports (data/processed, data/site, data/d1, data/history, data/runs).
+# 5. Clean run: load the snapshot into D1 and rebuild both frontends.
+#    Health warnings: open an issue and publish nothing. The previous month stays
+#    live until someone re-runs this workflow with `publish_only`.
+#
+# Requires the code from job_skills_radar (see MERGE_PLAN.md). Until that merge
+# lands on master, this workflow has nothing to run.
+#
+# Secrets:
+#   R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY   R2 API token (Object Read & Write, radar bucket only)
+#   CLOUDFLARE_ACCOUNT_ID                    also forms the R2 endpoint
+#   CLOUDFLARE_API_TOKEN                     D1 Edit, for wrangler
+#   EXTERNAL_DEPLOY_HOOK, INTERNAL_DEPLOY_HOOK   Cloudflare Pages deploy hook URLs (optional)
+# Variables:
+#   R2_BUCKET    e.g. job-radar
+#   D1_DATABASE  e.g. job-radar
+
+name: Monthly refresh
+
+on:
+  schedule:
+    # 03:00 UTC on the 2nd: the previous month is complete in every time zone,
+    # and the snapshot covers data through that month.
+    - cron: "0 3 2 * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "full = crawl and publish; skip_collect = re-extract and re-export only; publish_only = load the committed snapshot into D1"
+        type: choice
+        options: [full, skip_collect, publish_only]
+        default: full
+
+# Two runs writing one SQLite store corrupted it before; never overlap.
+concurrency:
+  group: monthly-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # commit the exports
+  issues: write     # report health warnings
+
+env:
+  R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+  AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: auto
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  MODE: ${{ inputs.mode || 'full' }}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # GitHub stops a job at 6 hours; stop first so the store still gets saved.
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install
+        # pandas 3 breaks the role and monthly exports (20 failing tests); pin
+        # below 3 until that code is fixed.
+        run: pip install -e . "pandas>=2.2,<3"
+
+      - name: Restore the raw store from R2
+        if: env.MODE != 'publish_only'
+        run: |
+          mkdir -p data/raw
+          # Fail rather than start empty: a missing store would silently re-crawl
+          # from scratch and lose the Wayback and Career Point history.
+          aws s3 cp "s3://${{ vars.R2_BUCKET }}/raw/jobs.sqlite" data/raw/jobs.sqlite \
+            --endpoint-url "$R2_ENDPOINT" --only-show-errors
+
+      - name: Run jobradar monthly
+        id: run
+        if: env.MODE != 'publish_only'
+        run: |
+          flags=""
+          if [ "$MODE" = "skip_collect" ]; then flags="--skip-collect"; fi
+          set +e
+          jobradar monthly $flags 2>&1 | tee monthly.log
+          code=${PIPESTATUS[0]}
+          set -e
+          # 0 = clean, 1 = finished with health warnings, 2 = stopped before exporting.
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" -ge 2 ]; then exit "$code"; fi
+
+      - name: Save the raw store to R2
+        # Runs even after a timeout or a failed later step, so collected postings
+        # are never lost.
+        if: always() && env.MODE != 'publish_only' && hashFiles('data/raw/jobs.sqlite') != ''
+        run: |
+          python - <<'PY'
+          import sqlite3
+          # Fold the write-ahead log into the main file before copying it.
+          conn = sqlite3.connect("data/raw/jobs.sqlite")
+          conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+          conn.close()
+          PY
+          stamp=$(date -u +%Y%m%dT%H%M%S)
+          aws s3 cp data/raw/jobs.sqlite "s3://${{ vars.R2_BUCKET }}/backups/jobs-$stamp.sqlite" \
+            --endpoint-url "$R2_ENDPOINT" --only-show-errors
+          aws s3 cp data/raw/jobs.sqlite "s3://${{ vars.R2_BUCKET }}/raw/jobs.sqlite" \
+            --endpoint-url "$R2_ENDPOINT" --only-show-errors
+
+      - name: Commit the exports
+        if: env.MODE != 'publish_only'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898099+github-actions[bot]@users.noreply.github.com"
+          # .gitignore keeps data/raw, data/cache, data/looker and the internal page out.
+          git add data
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          snapshot=$(ls data/runs | sort | tail -1 | sed 's/.json$//')
+          git commit -m "Monthly refresh: snapshot $snapshot"
+          git push
+
+      - name: Report health warnings
+        if: env.MODE != 'publish_only' && steps.run.outputs.code == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          snapshot=$(ls data/runs | sort | tail -1 | sed 's/.json$//')
+          {
+            echo "The monthly run for snapshot \`$snapshot\` finished with health warnings, so nothing was published. The previous month is still live."
+            echo
+            echo '```'
+            sed -n '/warning(s)/,$p' monthly.log
+            echo '```'
+            echo
+            echo "If the figures are right, run **Monthly refresh** with mode \`publish_only\`. Otherwise fix the source and run it with \`skip_collect\` or \`full\`."
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } > issue.md
+          gh issue create --title "Monthly refresh $snapshot: review health warnings" --body-file issue.md
+
+      - name: Load the snapshot into D1
+        id: publish
+        if: env.MODE == 'publish_only' || steps.run.outputs.code == '0'
+        run: jobradar publish --d1 "${{ vars.D1_DATABASE }}"
+
+      - name: Rebuild the frontends
+        if: steps.publish.outcome == 'success'
+        env:
+          EXTERNAL_DEPLOY_HOOK: ${{ secrets.EXTERNAL_DEPLOY_HOOK }}
+          INTERNAL_DEPLOY_HOOK: ${{ secrets.INTERNAL_DEPLOY_HOOK }}
+        run: |
+          for hook in "$EXTERNAL_DEPLOY_HOOK" "$INTERNAL_DEPLOY_HOOK"; do
+            if [ -n "$hook" ]; then curl -fsS -X POST "$hook" > /dev/null; fi
+          done
+
+      - name: Commit the publish record
+        # `jobradar publish` stamps the run report with when D1 was loaded.
+        if: steps.publish.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898099+github-actions[bot]@users.noreply.github.com"
+          git add data/runs
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Record D1 publish"
+          git push
